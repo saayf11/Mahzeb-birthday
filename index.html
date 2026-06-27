@@ -31,7 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* ─── Grain overlay ─── */
+        /* grain */
         body::before {
             content: '';
             position: fixed; inset: 0; z-index: 0;
@@ -39,10 +39,8 @@
             pointer-events: none;
         }
 
-        /* ─── Ambient glows ─── */
-        .ambient {
-            position: fixed; inset: 0; z-index: 0; pointer-events: none;
-        }
+        /* ambient glows */
+        .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
         .ambient::before {
             content: '';
             position: absolute; top: 15%; left: -15%;
@@ -58,7 +56,7 @@
             border-radius: 50%;
         }
 
-        /* ═══════════════════ LOGIN ═══════════════════ */
+        /* ═══════ LOGIN ═══════ */
         #loginWrap {
             position: fixed; inset: 0; z-index: 9999;
             background: var(--bg);
@@ -74,37 +72,19 @@
             border-radius: 50%; pointer-events: none;
         }
 
-        .login-box {
-            position: relative;
-            width: min(360px, 90vw);
-            text-align: center;
-        }
+        .login-box { position: relative; width: min(360px, 90vw); text-align: center; }
 
         .login-eyebrow {
-            font-size: 0.74rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--terra);
-            margin-bottom: 1.2rem;
+            font-size: 0.74rem; letter-spacing: 0.4em;
+            text-transform: uppercase; color: var(--terra); margin-bottom: 1.2rem;
         }
-
         .login-title {
             font-family: 'Sacramento', cursive;
-            font-size: 4.2rem;
-            color: var(--cream);
-            line-height: 1;
-            margin-bottom: 0.4rem;
+            font-size: 4.2rem; color: var(--cream); line-height: 1; margin-bottom: 0.4rem;
         }
-
-        .login-sub {
-            font-size: 0.88rem;
-            color: var(--muted);
-            font-style: italic;
-            margin-bottom: 2.6rem;
-        }
+        .login-sub { font-size: 0.88rem; color: var(--muted); font-style: italic; margin-bottom: 2.6rem; }
 
         .input-wrap { position: relative; margin-bottom: 0.9rem; }
-
         .input-wrap input {
             width: 100%;
             background: rgba(255,255,255,0.04);
@@ -113,19 +93,16 @@
             padding: 13px 18px;
             color: var(--cream);
             font-family: 'Crimson Pro', serif;
-            font-size: 1rem;
-            letter-spacing: 0.04em;
+            font-size: 1rem; letter-spacing: 0.04em;
             outline: none;
             transition: border-color 0.3s, background 0.3s;
         }
         .input-wrap input::placeholder { color: var(--muted); font-style: italic; }
         .input-wrap input:focus { border-color: var(--terra); background: rgba(184,112,74,0.06); }
-
         .input-hint {
             position: absolute; right: 13px; top: 50%;
             transform: translateY(-50%);
-            font-size: 0.68rem; color: var(--muted);
-            font-style: italic; pointer-events: none;
+            font-size: 0.68rem; color: var(--muted); font-style: italic; pointer-events: none;
         }
 
         .login-btn {
@@ -135,261 +112,33 @@
             color: var(--cream);
             font-family: 'Cormorant Garant', serif;
             font-size: 1.05rem; letter-spacing: 0.14em;
-            cursor: pointer;
-            transition: opacity 0.25s, transform 0.2s;
-            margin-top: 0.4rem;
+            cursor: pointer; transition: opacity 0.25s, transform 0.2s; margin-top: 0.4rem;
         }
         .login-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+        #loginError { margin-top: 0.9rem; font-size: 0.82rem; color: var(--terra); font-style: italic; min-height: 1.2rem; }
 
-        #loginError {
-            margin-top: 0.9rem;
-            font-size: 0.82rem;
-            color: var(--terra);
-            font-style: italic;
-            min-height: 1.2rem;
-        }
-
-        /* ═══════════════════ PAGE LAYOUT ═══════════════════ */
-        #mainSite { opacity: 0; transition: opacity 1s ease 0.15s; }
-        #mainSite.visible { opacity: 1; }
-
-        /* Right image strip — fixed */
-        #imageStrip {
-            position: fixed;
-            top: 0; right: 0;
-            width: var(--strip-w);
-            height: 100vh;
-            overflow: hidden;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        #imageStrip::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to right, var(--bg) 0%, transparent 40%);
-            z-index: 2;
-        }
-
-        #stripTrack {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            will-change: transform;
-            transition: transform 0.05s linear;
-        }
-
-        .strip-img {
-            width: 100%;
-            height: 340px;
-            object-fit: cover;
-            display: block;
-            flex-shrink: 0;
-            filter: brightness(0.75) saturate(0.8);
-        }
-
-        /* Content pushed left to make room for strip */
-        #content {
-            margin-right: var(--strip-w);
-        }
-
-        section {
-            position: relative; z-index: 1;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            padding: 100px 60px 100px 60px;
-            min-height: 100vh;
-        }
-
-        /* ─── Hero ─── */
-        #hero { text-align: center; gap: 0.8rem; }
-
-        .hero-date {
-            font-size: 0.74rem; letter-spacing: 0.45em;
-            text-transform: uppercase; color: var(--terra);
-            opacity: 0; animation: riseIn 1s ease 0.5s forwards;
-        }
-
-        .hero-name {
-            font-family: 'Sacramento', cursive;
-            font-size: clamp(5rem, 13vw, 10rem);
-            color: var(--cream); line-height: 0.95;
-            opacity: 0; animation: riseIn 1.1s ease 0.9s forwards;
-        }
-
-        .hero-tagline {
-            font-family: 'Cormorant Garant', serif;
-            font-style: italic; font-weight: 300;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: var(--cream2);
-            opacity: 0; animation: riseIn 1s ease 1.5s forwards;
-        }
-
-        .hero-divider {
-            width: 60px; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--terra), transparent);
-            margin: 1rem auto;
-            opacity: 0; animation: riseIn 1s ease 2s forwards;
-        }
-
-        .scroll-cue {
-            position: absolute; bottom: 28px; left: 50%;
-            transform: translateX(-50%);
-            color: var(--muted); font-size: 0.68rem;
-            letter-spacing: 0.3em; text-transform: uppercase;
-            display: flex; flex-direction: column; align-items: center; gap: 6px;
-            opacity: 0; animation: riseIn 1s ease 2.5s forwards, nudge 3s ease 3.5s infinite;
-        }
-        .scroll-cue::after {
-            content: '';
-            display: block; width: 1px; height: 36px;
-            background: linear-gradient(to bottom, var(--muted), transparent);
-        }
-
-        /* ─── Shared labels/titles ─── */
-        .section-label {
-            font-size: 0.7rem; letter-spacing: 0.42em;
-            text-transform: uppercase; color: var(--terra);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title {
-            font-family: 'Cormorant Garant', serif;
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-            font-weight: 300; text-align: center;
-            color: var(--cream); margin-bottom: 2.8rem; line-height: 1.2;
-        }
-        .section-title em { font-style: italic; color: var(--gold); }
-
-        /* ─── About cards ─── */
-        #about { min-height: auto; padding: 80px 60px; }
-
-        .cards-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 1.1rem;
-            width: min(820px, 100%);
-        }
-
-        .note-card {
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 26px 20px;
-            background: var(--border2);
-            position: relative; overflow: hidden;
-            transition: transform 0.35s ease, border-color 0.3s, background 0.3s;
-            cursor: default;
-        }
-        .note-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0;
-            width: 3px; height: 0;
-            background: linear-gradient(to bottom, var(--terra), var(--wine));
-            transition: height 0.4s ease;
-        }
-        .note-card:hover { transform: translateY(-6px); border-color: rgba(184,112,74,0.45); background: rgba(184,112,74,0.07); }
-        .note-card:hover::before { height: 100%; }
-
-        .card-num { font-family: 'Cormorant Garant', serif; font-size: 0.68rem; letter-spacing: 0.3em; color: var(--terra); margin-bottom: 0.8rem; }
-        .card-icon { font-size: 1.7rem; margin-bottom: 0.6rem; display: block; }
-        .note-card h3 { font-family: 'Cormorant Garant', serif; font-size: 1.2rem; font-style: italic; color: var(--cream); margin-bottom: 0.45rem; font-weight: 400; }
-        .note-card p { font-size: 0.86rem; color: var(--muted); line-height: 1.75; }
-
-        /* music plays in background — no visible player */
-
-        /* ─── Poem ─── */
-        #poem { min-height: auto; padding: 80px 60px; }
-
-        .poem-wrap { width: min(560px, 100%); text-align: center; }
-
-        .poem-cursive-title {
-            font-family: 'Sacramento', cursive;
-            font-size: 2.6rem; color: var(--terra);
-            margin-bottom: 2.8rem;
-        }
-
-        .poem-lines { list-style: none; }
-
-        .poem-line {
-            font-family: 'Cormorant Garant', serif;
-            font-style: italic; font-weight: 300;
-            font-size: clamp(1rem, 2.1vw, 1.18rem);
-            line-height: 2;
-            color: var(--cream2);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.65s ease, transform 0.65s ease;
-        }
-        .poem-line.on { opacity: 1; transform: none; }
-        .poem-line.break { margin-bottom: 1.2rem; }
-
-        .poem-credit {
-            margin-top: 2.2rem;
-            font-family: 'Sacramento', cursive;
-            font-size: 1.6rem;
-            color: var(--terra);
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-        .poem-credit.on { opacity: 1; }
-
-        .poem-rule {
-            width: 60px; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
-            margin: 2rem auto 0;
-        }
-
-        /* ─── Message / letter ─── */
-        #message { min-height: 80vh; }
-
-        .letter-wrap { width: min(560px, 100%); }
-
-        .letter-corner { font-family: 'Sacramento', cursive; font-size: 1.7rem; color: var(--terra); margin-bottom: 2rem; }
-
-        .letter-body {
-            font-family: 'Cormorant Garant', serif;
-            font-style: italic; font-weight: 300;
-            font-size: 1.25rem; line-height: 2.1;
-            color: var(--cream2);
-        }
-        .letter-body strong { font-style: normal; color: var(--cream); font-weight: 600; }
-
-        .letter-rule { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 2rem 0; }
-
-        .letter-sign { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: var(--cream); text-align: right; }
-        .letter-sign-sub { text-align: right; font-size: 0.76rem; color: var(--muted); letter-spacing: 0.16em; font-style: italic; }
-
-        /* ─── Music button ─── */
+        /* ═══════ MUSIC BUTTON ═══════ */
         #music-btn {
-            position: fixed;
-            top: 1.3rem; right: 1.3rem;
+            position: fixed; top: 1.3rem; right: 1.3rem;
             z-index: 500;
             display: none;
             align-items: center; gap: 8px;
-            background: rgba(12,8,7,0.72);
+            background: rgba(12,8,7,0.75);
             border: 1px solid rgba(184,112,74,0.35);
             color: var(--terra);
             padding: 7px 16px 7px 13px;
             font-family: 'Crimson Pro', serif;
-            font-size: 0.76rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-            border-radius: 3px;
+            font-size: 0.76rem; letter-spacing: 0.2em; text-transform: uppercase;
+            cursor: pointer; backdrop-filter: blur(8px); border-radius: 3px;
             transition: border-color 0.3s, color 0.3s;
         }
         #music-btn.on { display: flex; }
         #music-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-        .btn-bars {
-            display: flex; align-items: flex-end; gap: 2px; height: 12px;
-        }
+        .btn-bars { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
         .btn-bars span {
             display: block; width: 2.5px; background: currentColor;
-            border-radius: 2px;
-            animation: barBounce 0.75s ease infinite;
+            border-radius: 2px; animation: barBounce 0.75s ease infinite;
         }
         .btn-bars span:nth-child(1) { height: 4px;  animation-delay: 0s;    }
         .btn-bars span:nth-child(2) { height: 9px;  animation-delay: 0.14s; }
@@ -398,20 +147,141 @@
         .btn-bars.paused span { animation-play-state: paused; }
 
         @keyframes barBounce {
-            0%, 100% { transform: scaleY(1);   }
+            0%, 100% { transform: scaleY(1); }
             50%       { transform: scaleY(0.3); }
         }
 
-        /* ─── Footer ─── */
-        footer {
-            position: relative; z-index: 1;
-            text-align: center; padding: 28px;
-            font-size: 0.7rem;
-            color: rgba(138,116,98,0.35);
-            letter-spacing: 0.2em; text-transform: uppercase;
+        /* ═══════ MAIN SITE ═══════ */
+        #mainSite { opacity: 0; transition: opacity 1s ease 0.15s; }
+        #mainSite.visible { opacity: 1; }
+
+        /* Right image strip */
+        #imageStrip {
+            position: fixed; top: 0; right: 0;
+            width: var(--strip-w); height: 100vh;
+            overflow: hidden; z-index: 10; pointer-events: none;
+        }
+        #imageStrip::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to right, var(--bg) 0%, transparent 40%);
+            z-index: 2;
+        }
+        #stripTrack { display: flex; flex-direction: column; width: 100%; will-change: transform; }
+        .strip-img {
+            width: 100%; height: 340px; object-fit: cover; display: block; flex-shrink: 0;
+            filter: brightness(0.72) saturate(0.78);
         }
 
-        /* ─── Animations ─── */
+        /* Content area */
+        #content { margin-right: var(--strip-w); }
+
+        section {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 100px 60px; min-height: 100vh;
+        }
+
+        /* ═══════ HERO ═══════ */
+        #hero { text-align: center; gap: 0.8rem; }
+
+        .hero-date {
+            font-size: 0.74rem; letter-spacing: 0.45em;
+            text-transform: uppercase; color: var(--terra);
+            opacity: 0; animation: riseIn 1s ease 0.5s forwards;
+        }
+        .hero-name {
+            font-family: 'Sacramento', cursive;
+            font-size: clamp(5rem, 13vw, 10rem); color: var(--cream); line-height: 0.95;
+            opacity: 0; animation: riseIn 1.1s ease 0.9s forwards;
+        }
+        .hero-tagline {
+            font-family: 'Cormorant Garant', serif;
+            font-style: italic; font-weight: 300;
+            font-size: clamp(1rem, 2vw, 1.3rem); color: var(--cream2);
+            opacity: 0; animation: riseIn 1s ease 1.5s forwards;
+        }
+        .hero-divider {
+            width: 60px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--terra), transparent);
+            margin: 1rem auto;
+            opacity: 0; animation: riseIn 1s ease 2s forwards;
+        }
+        .scroll-cue {
+            position: absolute; bottom: 28px; left: 50%;
+            transform: translateX(-50%);
+            color: var(--muted); font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            opacity: 0; animation: riseIn 1s ease 2.5s forwards, nudge 3s ease 3.5s infinite;
+        }
+        .scroll-cue::after { content: ''; display: block; width: 1px; height: 36px; background: linear-gradient(to bottom, var(--muted), transparent); }
+
+        /* ═══════ SHARED ═══════ */
+        .section-label { font-size: 0.7rem; letter-spacing: 0.42em; text-transform: uppercase; color: var(--terra); margin-bottom: 0.5rem; }
+        .section-title {
+            font-family: 'Cormorant Garant', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300;
+            text-align: center; color: var(--cream); margin-bottom: 2.8rem; line-height: 1.2;
+        }
+        .section-title em { font-style: italic; color: var(--gold); }
+
+        /* ═══════ ABOUT ═══════ */
+        #about { min-height: auto; padding: 80px 60px; }
+
+        .cards-row {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 1.1rem; width: min(820px, 100%);
+        }
+        .note-card {
+            border: 1px solid var(--border); border-radius: 4px;
+            padding: 26px 20px; background: var(--border2);
+            position: relative; overflow: hidden;
+            transition: transform 0.35s ease, border-color 0.3s, background 0.3s;
+            cursor: default;
+        }
+        .note-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 3px; height: 0;
+            background: linear-gradient(to bottom, var(--terra), var(--wine));
+            transition: height 0.4s ease;
+        }
+        .note-card:hover { transform: translateY(-6px); border-color: rgba(184,112,74,0.45); background: rgba(184,112,74,0.07); }
+        .note-card:hover::before { height: 100%; }
+        .card-num { font-family: 'Cormorant Garant', serif; font-size: 0.68rem; letter-spacing: 0.3em; color: var(--terra); margin-bottom: 0.8rem; }
+        .card-icon { font-size: 1.7rem; margin-bottom: 0.6rem; display: block; }
+        .note-card h3 { font-family: 'Cormorant Garant', serif; font-size: 1.2rem; font-style: italic; color: var(--cream); margin-bottom: 0.45rem; font-weight: 400; }
+        .note-card p { font-size: 0.86rem; color: var(--muted); line-height: 1.75; }
+
+        /* ═══════ POEM ═══════ */
+        #poem { min-height: auto; padding: 80px 60px; }
+        .poem-wrap { width: min(560px, 100%); text-align: center; }
+        .poem-cursive-title { font-family: 'Sacramento', cursive; font-size: 2.6rem; color: var(--terra); margin-bottom: 2.8rem; }
+        .poem-lines { list-style: none; }
+        .poem-line {
+            font-family: 'Cormorant Garant', serif; font-style: italic; font-weight: 300;
+            font-size: clamp(1rem, 2.1vw, 1.18rem); line-height: 2; color: var(--cream2);
+            opacity: 0; transform: translateY(10px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        .poem-line.on { opacity: 1; transform: none; }
+        .poem-line.break { margin-bottom: 1.2rem; }
+        .poem-credit { margin-top: 2.2rem; font-family: 'Sacramento', cursive; font-size: 1.6rem; color: var(--terra); opacity: 0; transition: opacity 0.8s ease; }
+        .poem-credit.on { opacity: 1; }
+        .poem-rule { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 2rem auto 0; }
+
+        /* ═══════ MESSAGE ═══════ */
+        #message { min-height: 80vh; }
+        .letter-wrap { width: min(560px, 100%); }
+        .letter-corner { font-family: 'Sacramento', cursive; font-size: 1.7rem; color: var(--terra); margin-bottom: 2rem; }
+        .letter-body { font-family: 'Cormorant Garant', serif; font-style: italic; font-weight: 300; font-size: 1.25rem; line-height: 2.1; color: var(--cream2); }
+        .letter-body strong { font-style: normal; color: var(--cream); font-weight: 600; }
+        .letter-rule { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 2rem 0; }
+        .letter-sign { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: var(--cream); text-align: right; }
+        .letter-sign-sub { text-align: right; font-size: 0.76rem; color: var(--muted); letter-spacing: 0.16em; font-style: italic; }
+
+        footer { position: relative; z-index: 1; text-align: center; padding: 28px; font-size: 0.7rem; color: rgba(138,116,98,0.35); letter-spacing: 0.2em; text-transform: uppercase; }
+
+        /* ═══════ ANIMATIONS ═══════ */
         @keyframes riseIn { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
         @keyframes nudge  { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
         @keyframes shakeIt { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
@@ -420,7 +290,7 @@
         .reveal { opacity:0; transform:translateY(18px); transition: opacity 0.85s ease, transform 0.85s ease; }
         .reveal.on { opacity:1; transform:none; }
 
-        /* ─── Responsive ─── */
+        /* ═══════ RESPONSIVE ═══════ */
         @media (max-width: 768px) {
             :root { --strip-w: 0px; }
             #imageStrip { display: none; }
@@ -432,14 +302,13 @@
 </head>
 <body>
 
-<!-- ══════════════════ LOGIN ══════════════════ -->
+<!-- ═══════ LOGIN ═══════ -->
 <div id="loginWrap">
     <div class="login-glow"></div>
     <div class="login-box" id="loginBox">
         <p class="login-eyebrow">something made just for you</p>
         <h1 class="login-title">welcome</h1>
         <p class="login-sub">enter to find out what's inside</p>
-
         <div class="input-wrap">
             <input type="text" id="uInput" placeholder="username" autocomplete="off" spellcheck="false" />
             <span class="input-hint">hint: your name</span>
@@ -447,56 +316,51 @@
         <div class="input-wrap">
             <input type="password" id="pInput" placeholder="password" autocomplete="off" />
         </div>
-
         <button class="login-btn" onclick="tryLogin()">enter ↵</button>
         <p id="loginError"></p>
     </div>
 </div>
 
-<!-- ══════════════════ MAIN SITE ══════════════════ -->
+<!-- ═══════ BACKGROUND AUDIO ═══════ -->
+<!-- Place say_yes.mp3 in the same folder as this file -->
+<audio id="bgMusic" loop>
+    <source src="say_yes.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ═══════ MUSIC TOGGLE ═══════ -->
+<button id="music-btn" onclick="toggleMusic()">
+    <div class="btn-bars" id="btnBars">
+        <span></span><span></span><span></span><span></span>
+    </div>
+    <span id="music-btn-label">pause</span>
+</button>
+
+<!-- ═══════ MAIN SITE ═══════ -->
 <div id="mainSite">
     <div class="ambient"></div>
 
-    <!-- Background audio — place your MP3 in the same folder as this file -->
-    <audio id="bgMusic" loop>
-        <source src="you_and_forever.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Music toggle button -->
-    <button id="music-btn" onclick="toggleMusic()">
-        <div class="btn-bars" id="btnBars">
-            <span></span><span></span><span></span><span></span>
-        </div>
-        <span id="music-btn-label">pause</span>
-    </button>
-
-    <!-- ════ IMAGE STRIP (right side, parallax) ════ -->
+    <!-- Image strip (right side parallax) -->
     <div id="imageStrip">
         <div id="stripTrack">
-            <!--
-                PINTEREST IMAGES — replace src values with her actual Pinterest image URLs.
-                To get them: on Pinterest, right-click any saved image → "Copy image address"
-                then paste those URLs here. Current images are curated placeholders.
-            -->
-            <img class="strip-img" src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1474366521946-c3d4b507abf2?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
-            <img class="strip-img" src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy" />
+            <!-- Replace src values with actual Pinterest image URLs -->
+            <img class="strip-img" src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
+            <img class="strip-img" src="https://images.unsplash.com/photo-1474366521946-c3d4b507abf2?w=400&h=340&fit=crop&auto=format" alt="" loading="lazy">
         </div>
     </div>
 
-    <!-- ════ CONTENT ════ -->
     <div id="content">
 
         <!-- HERO -->
         <section id="hero">
-            <p class="hero-date">June 27, 2026 &nbsp;·&nbsp; happy birthday</p>
+            <p class="hero-date">June 27, 2026 · happy birthday</p>
             <h1 class="hero-name">Mahzeb</h1>
             <div class="hero-divider"></div>
             <p class="hero-tagline">for someone who lives in stories and makes the real world better</p>
@@ -534,8 +398,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- music plays in background — no visible section needed -->
 
         <!-- POEM -->
         <section id="poem">
@@ -594,26 +456,24 @@
             </div>
         </section>
 
-        <footer>made with love for mahzeb's birthday &nbsp;·&nbsp; june 27, 2026</footer>
-    </div><!-- /content -->
-</div><!-- /mainSite -->
+        <footer>made with love for mahzeb's birthday · june 27, 2026</footer>
+    </div>
+</div>
 
-<!-- ══════════════════ SCRIPTS ══════════════════ -->
 <script>
-/* ── Background music (HTML5 Audio — local MP3 file) ── */
-const audio  = document.getElementById('bgMusic');
-let musicOn  = false;
-
+/* ══ Background audio ══ */
+const audio = document.getElementById('bgMusic');
+let musicOn = false;
 audio.volume = 0.42;
 
-// Start on first scroll — same trick as reference, satisfies browser autoplay policy
+// Starts on first scroll — same method as reference site
 window.addEventListener('scroll', function onFirstScroll() {
     if (!musicOn) {
         audio.play().then(() => {
             musicOn = true;
             document.getElementById('music-btn').classList.add('on');
             document.getElementById('music-btn-label').textContent = 'pause';
-        }).catch(() => {/* autoplay blocked — user can click toggle */});
+        }).catch(() => {});
     }
     window.removeEventListener('scroll', onFirstScroll);
 });
@@ -622,19 +482,17 @@ function toggleMusic() {
     const label = document.getElementById('music-btn-label');
     const bars  = document.getElementById('btnBars');
     if (musicOn) {
-        audio.pause();
-        musicOn = false;
+        audio.pause(); musicOn = false;
         label.textContent = 'play';
         bars.classList.add('paused');
     } else {
-        audio.play();
-        musicOn = true;
+        audio.play(); musicOn = true;
         label.textContent = 'pause';
         bars.classList.remove('paused');
     }
 }
 
-/* ── Login ── */
+/* ══ Login ══ */
 function tryLogin() {
     const u   = document.getElementById('uInput').value.trim();
     const p   = document.getElementById('pInput').value.trim();
@@ -645,7 +503,6 @@ function tryLogin() {
         const site = document.getElementById('mainSite');
         site.style.display = 'block';
         requestAnimationFrame(() => requestAnimationFrame(() => site.classList.add('visible')));
-        // Music starts on her first scroll — scroll listener above handles it
     } else {
         err.textContent = u.toLowerCase() !== 'mahzeb'
             ? 'hmm… try your name ♡'
@@ -657,62 +514,56 @@ function tryLogin() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 
-/* ── Parallax image strip ── */
+/* ══ Parallax image strip ══ */
 const strip    = document.getElementById('imageStrip');
 const track    = document.getElementById('stripTrack');
-const imgCount = track.querySelectorAll('.strip-img').length;
-const imgH     = 340; // px per image
 
 function updateStrip() {
     if (!strip || window.innerWidth <= 768) return;
-    const docH    = document.documentElement.scrollHeight - window.innerHeight;
-    const prog    = Math.max(0, Math.min(1, window.scrollY / docH));
-    const totalH  = imgCount * imgH;
+    const docH     = document.documentElement.scrollHeight - window.innerHeight;
+    const prog     = Math.max(0, Math.min(1, window.scrollY / docH));
+    const totalH   = track.querySelectorAll('.strip-img').length * 340;
     const maxShift = totalH - window.innerHeight;
-    const shift   = prog * maxShift * 0.85; // 0.85 = slower than content
-    track.style.transform = `translateY(-${shift}px)`;
+    track.style.transform = `translateY(-${prog * maxShift * 0.85}px)`;
 }
-
 window.addEventListener('scroll', updateStrip, { passive: true });
 window.addEventListener('resize', updateStrip, { passive: true });
 
-/* ── Intersection reveal ── */
-const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-}, { threshold: 0.1 });
+/* ══ Scroll reveal ══ */
+const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }),
+    { threshold: 0.1 }
+);
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-/* ── Poem staggered line reveal ── */
-(function() {
-    const lines = document.querySelectorAll('.poem-line');
-    lines.forEach((l, i) => { l.style.transitionDelay = (i * 0.075) + 's'; });
-
+/* ══ Poem stagger ══ */
+(function () {
+    const lines  = document.querySelectorAll('.poem-line');
     const credit = document.getElementById('poemCredit');
+    lines.forEach((l, i) => { l.style.transitionDelay = (i * 0.075) + 's'; });
     if (credit) credit.style.transitionDelay = (lines.length * 0.075 + 0.3) + 's';
 
-    const pObs = new IntersectionObserver(entries => {
+    new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
                 lines.forEach(l => l.classList.add('on'));
                 if (credit) credit.classList.add('on');
-                pObs.disconnect();
             }
         });
-    }, { threshold: 0.08 });
-
-    const sec = document.getElementById('poem');
-    if (sec) pObs.observe(sec);
+    }, { threshold: 0.08 }).observe(document.getElementById('poem'));
 })();
 
-/* ── Click sparkle ── */
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('mainSite').addEventListener('click', e => {
-        const s = document.createElement('span');
-        s.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;pointer-events:none;z-index:8888;font-size:1.1rem;animation:sparkPop 0.55s ease forwards;`;
-        s.textContent = ['✨','🩷','⭐','🌸','♡'][Math.floor(Math.random()*5)];
-        document.body.appendChild(s);
-        setTimeout(() => s.remove(), 600);
-    });
+/* ══ Click sparkle ══ */
+const sparkStyle = document.createElement('style');
+sparkStyle.textContent = '@keyframes sparkPop{0%{transform:translate(-50%,-50%) scale(0);opacity:1}70%{transform:translate(-50%,-90%) scale(1.3);opacity:.9}100%{transform:translate(-50%,-130%) scale(.6);opacity:0}}';
+document.head.appendChild(sparkStyle);
+
+document.getElementById('mainSite').addEventListener('click', e => {
+    const s = document.createElement('span');
+    s.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;pointer-events:none;z-index:8888;font-size:1.1rem;animation:sparkPop .55s ease forwards`;
+    s.textContent = ['✨','🩷','⭐','🌸','♡'][Math.floor(Math.random() * 5)];
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 600);
 });
 </script>
 </body>
