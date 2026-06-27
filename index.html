@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>happy birthday, mahzeb</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --bg:     #0c0807;
+      --cream:  #f2e2c8;
+      --terra:  #b8704a;
+      --wine:   #7a1e2e;
+      --gold:   #c9883a;
+      --border: rgba(201,136,58,0.22);
+      --strip-w: 270px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Crimson Pro', serif;
+      font-weight: 300;
+      line-height: 1.9;
+      overflow-x: hidden;
+    }
+
+    /* Warm milky-way band */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        118deg,
+        transparent 15%,
+        rgba(120,50,30,0.03) 38%,
+        rgba(180,80,40,0.04) 50%,
+        rgba(120,50,30,0.03) 62%,
+        transparent 85%
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── CANVASES ─── */
+    #stars-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ─── LOGIN ─── */
+    #loginWrap {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.4rem;
+      transition: opacity 0.9s ease;
+    }
+    #loginWrap.hidden { opacity: 0; pointer-events: none; }
+
+    .login-title {
+      font-family: 'Sacramento', cursive;
+      font-size: 3rem;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.04em;
+    }
+    .login-hint {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(201,136,58,0.5);
+      margin-bottom: 0.6rem;
+    }
+
+    .login-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      width: 260px;
+    }
+    .login-field label {
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(242,226,200,0.45);
+    }
+    .login-field input {
+      background: rgba(242,226,200,0.04);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      padding: 0.55rem 0.9rem;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .login-field input:focus { border-color: var(--gold); }
+
+    #loginBtn {
+      margin-top: 0.6rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      padding: 0.7rem 2.5rem;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+      width: 260px;
+    }
+    #loginBtn:hover { background: var(--gold); color: var(--bg); }
+
+    #loginErr {
+      font-size: 0.72rem;
+      color: var(--wine);
+      letter-spacing: 0.12em;
+      min-height: 1.1rem;
+      text-align: center;
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-8px); }
+      40%      { transform: translateX(8px); }
+      60%      { transform: translateX(-5px); }
+      80%      { transform: translateX(5px); }
+    }
+    .shake { animation: shake 0.45s ease; }
+
+    /* ─── MAIN SITE ─── */
+    #mainSite {
+      display: none;
+      opacity: 0;
+      transition: opacity 1.1s ease;
+      position: relative;
+      margin-right: var(--strip-w);
+    }
+    #mainSite.visible { opacity: 1; }
+
+    /* ─── MUSIC BTN ─── */
+    #music-btn {
+      position: fixed;
+      top: 1.4rem; right: calc(var(--strip-w) + 1.4rem);
+      z-index: 200;
+      background: rgba(12,8,7,0.75);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      padding: 0.42rem 0.9rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      backdrop-filter: blur(4px);
+      transition: border-color 0.3s;
+    }
+    #music-btn:hover { border-color: var(--gold); }
+    #music-btn.on #btnBars .bar { animation: barDance 0.6s ease-in-out infinite alternate; }
+    #btnBars { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
+    .bar {
+      width: 3px;
+      background: var(--gold);
+      border-radius: 1px;
+      animation: none;
+      height: 5px;
+    }
+    .bar:nth-child(2) { animation-delay: 0.15s !important; }
+    .bar:nth-child(3) { animation-delay: 0.3s !important; }
+    #btnBars.paused .bar { animation: none !important; }
+    @keyframes barDance {
+      from { height: 4px; }
+      to   { height: 13px; }
+    }
+    #music-btn-label { font-size: 0.65rem; }
+
+    /* ─── RIGHT STRIP ─── */
+    #imgStrip {
+      position: fixed;
+      top: 0; right: 0;
+      width: var(--strip-w);
+      height: 100vh;
+      overflow: hidden;
+      border-left: 1px solid var(--border);
+      z-index: 10;
+    }
+    #stripTrack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      will-change: transform;
+    }
+    .strip-img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.82) saturate(0.9);
+      transition: filter 0.4s;
+    }
+    .strip-img:hover { filter: brightness(1) saturate(1.1); }
+
+    @media (max-width: 768px) {
+      #imgStrip { display: none; }
+      #mainSite { margin-right: 0; }
+      #music-btn { right: 1.4rem; }
+    }
+
+    /* ─── SECTIONS ─── */
+    section, .section-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 3rem;
+    }
+    .hero-date {
+      font-size: 0.68rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(201,136,58,0.6);
+      margin-bottom: 1.8rem;
+    }
+    .hero-name {
+      font-family: 'Sacramento', cursive;
+      font-size: clamp(5rem, 12vw, 9rem);
+      color: var(--cream);
+      line-height: 1;
+      opacity: 0;
+      animation: fadeUp 1.8s cubic-bezier(0.22,0.61,0.36,1) forwards 0.5s;
+    }
+    .hero-sub {
+      font-family: 'Cormorant Garant', serif;
+      font-style: italic;
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      margin-top: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 1.5s ease forwards 1.8s;
+    }
+    .scroll-cue {
+      margin-top: 4rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: rgba(201,136,58,0.35);
+      opacity: 0;
+      animation: fadeUp 1.2s ease forwards 3s, floatY 3.5s ease-in-out infinite 3.5s;
+    }
+
+    /* ABOUT */
+    #about {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 8rem 2.5rem 6rem;
+    }
+    .section-label {
+      font-size: 0.64rem;
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: rgba(201,136,58,0.55);
+      margin-bottom: 3.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    .about-card {
+      margin-bottom: 3.8rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s cubic-bezier(0.22,0.61,0.36,1),
+                  transform 0.55s cubic-bezier(0.22,0.61,0.36,1);
+    }
+    .about-card.visible { opacity: 1; transform: translateY(0); }
+
+    .card-title {
+      font-family: 'Cormorant Garant', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.55rem;
+      color: var(--cream);
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+    }
+    .card-title::before {
+      content: attr(data-glyph);
+      font-style: normal;
+      font-size: 1rem;
+      color: var(--terra);
+    }
+    .card-body {
+      font-size: 1.06rem;
+      line-height: 2;
+      color: rgba(242,226,200,0.78);
+    }
+
+    /* DIVIDER */
+    .divider {
+      text-align: center;
+      color: var(--border);
+      font-size: 1.1rem;
+      letter-spacing: 1.2em;
+      margin: 1.5rem 0 4rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .divider.visible { opacity: 1; transform: translateY(0); }
+
+    /* POEM */
+    #poem-section {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 6rem 2.5rem 8rem;
+      text-align: center;
+    }
+    .poem-title {
+      font-family: 'Sacramento', cursive;
+      font-size: 2.8rem;
+      color: var(--gold);
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .poem-title.visible { opacity: 1; transform: translateY(0); }
+
+    .poem-line {
+      display: block;
+      font-family: 'Cormorant Garant', serif;
+      font-style: italic;
+      font-size: 1.13rem;
+      line-height: 2.1;
+      color: rgba(242,226,200,0.88);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .poem-line.visible { opacity: 1; transform: translateY(0); }
+    .poem-line.empty { height: 0.9rem; }
+
+    .poem-sig {
+      display: block;
+      margin-top: 2.4rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(201,136,58,0.55);
+      opacity: 0;
+      transition: opacity 0.6s ease 0.3s;
+    }
+    .poem-sig.visible { opacity: 1; }
+
+    /* LETTER */
+    #letter-section {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem 8rem;
+    }
+    .letter-opener {
+      font-family: 'Cormorant Garant', serif;
+      font-weight: 400;
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .letter-opener.visible { opacity: 1; transform: translateY(0); }
+    .letter-body-text {
+      font-size: 1.08rem;
+      line-height: 2.1;
+      color: rgba(242,226,200,0.82);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+    }
+    .letter-body-text.visible { opacity: 1; transform: translateY(0); }
+    .letter-body-text p { margin-bottom: 1.6rem; }
+    .letter-close {
+      margin-top: 2.5rem;
+      font-family: 'Cormorant Garant', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--gold);
+      opacity: 0;
+      transition: opacity 0.6s ease 0.2s;
+    }
+    .letter-close.visible { opacity: 1; }
+
+    /* ─── HEARTS SECTION ─── */
+    #hearts-section {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #hearts-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heart-wrap {
+      width: 110px;
+      height: 110px;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    .heart-wrap.heart-left  { transform: translateX(-130vw); }
+    .heart-wrap.heart-right { transform: translateX(130vw); }
+    .heart-wrap svg { width: 100%; height: 100%; overflow: visible; }
+
+    .heart-wrap.heart-left.collide {
+      animation: collideLeft 1.6s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+    }
+    .heart-wrap.heart-right.collide {
+      animation: collideRight 1.6s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+    }
+    @keyframes collideLeft {
+      0%   { transform: translateX(-130vw); opacity: 0; }
+      12%  { opacity: 1; }
+      68%  { transform: translateX(0); opacity: 1; }
+      78%  { transform: translateX(8px) scale(1.16); }
+      88%  { transform: translateX(-4px) scale(0.94); }
+      100% { transform: translateX(0) scale(1); opacity: 1; }
+    }
+    @keyframes collideRight {
+      0%   { transform: translateX(130vw); opacity: 0; }
+      12%  { opacity: 1; }
+      68%  { transform: translateX(0); opacity: 1; }
+      78%  { transform: translateX(-8px) scale(1.16); }
+      88%  { transform: translateX(4px) scale(0.94); }
+      100% { transform: translateX(0) scale(1); opacity: 1; }
+    }
+    .heart-wrap.pulse svg {
+      animation: heartPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes heartPulse {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(184,112,74,0.5)); transform: scale(1); }
+      50%       { filter: drop-shadow(0 0 28px rgba(201,136,58,0.9)); transform: scale(1.08); }
+    }
+
+    #hearts-label {
+      margin-top: 2.8rem;
+      font-family: 'Sacramento', cursive;
+      font-size: 2rem;
+      color: rgba(201,136,58,0.55);
+      letter-spacing: 0.08em;
+      opacity: 0;
+      transition: opacity 1.3s ease;
+    }
+    #hearts-label.show { opacity: 1; }
+
+    /* CLOSING */
+    #closing {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem 2rem 14rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    #closing.visible { opacity: 1; transform: translateY(0); }
+    #closing p {
+      font-family: 'Cormorant Garant', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(201,136,58,0.4);
+      letter-spacing: 0.15em;
+    }
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+
+    /* Sparkle clicks */
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      animation: sparkleOut 0.6s ease forwards;
+    }
+    @keyframes sparkleOut {
+      0%   { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ─── LOGIN ─── -->
+<div id="loginWrap">
+  <div class="login-title">for mahzeb</div>
+  <div class="login-hint">enter your name to open</div>
+  <div class="login-field">
+    <label>username <span style="color:rgba(201,136,58,0.35)">— hint: your name</span></label>
+    <input id="uInput" type="text" autocomplete="off" placeholder="…" onkeydown="if(event.key==='Enter')document.getElementById('pInput').focus()">
+  </div>
+  <div class="login-field">
+    <label>password</label>
+    <input id="pInput" type="password" autocomplete="off" placeholder="…" onkeydown="if(event.key==='Enter')tryLogin()">
+  </div>
+  <button id="loginBtn" onclick="tryLogin()">open</button>
+  <div id="loginErr"></div>
+</div>
+
+<!-- ─── MUSIC BTN (shown after login) ─── -->
+<button id="music-btn" onclick="toggleMusic()" style="display:none">
+  <div id="btnBars">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  <span id="music-btn-label">play</span>
+</button>
+
+<audio id="bgMusic" loop>
+  <source src="say_yes.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ─── RIGHT STRIP ─── -->
+<div id="imgStrip">
+  <div id="stripTrack">
+    <img class="strip-img" src="https://i.pinimg.com/736x/3a/90/0e/3a900e8500cbbbefbb0e70f67e430767.jpg" alt="">
+    <img class="strip-img" src="https://i.pinimg.com/736x/e5/f7/40/e5f7408e398b49849ab75ee4eaca2430.jpg" alt="">
+    <img class="strip-img" src="https://i.pinimg.com/736x/06/88/8a/06888a9b29a6bfc63f21d57c1a94be3f.jpg" alt="">
+    <img class="strip-img" src="https://i.pinimg.com/736x/55/01/66/5501664be5d324160759da320375b5d5.jpg" alt="">
+    <img class="strip-img" src="https://i.pinimg.com/736x/7d/42/db/7d42db4b4bff57e64803a5dc9ba73d30.jpg" alt="">
+    <img class="strip-img" src="https://i.pinimg.com/736x/a4/07/9f/a4079f37b4e52795744d26978819724e.jpg" alt="">
+    <img class="strip-img" src="https://i.pinimg.com/736x/88/a1/44/88a144970d3a603dd844429904fefbd4.jpg" alt="">
+  </div>
+</div>
+
+<!-- ─── MAIN SITE ─── -->
+<div id="mainSite">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-date">june 27, 2026</div>
+    <div class="hero-name">Mahzeb</div>
+    <div class="hero-sub">happy birthday, my favourite person</div>
+    <div class="scroll-cue">scroll down</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">a few things i know about you</div>
+
+    <div class="about-card">
+      <div class="card-title" data-glyph="✦">the reader</div>
+      <div class="card-body">
+        You're the kind of person who disappears into a book and comes back changed. You read like it matters — because to you, it does. Every story you love says something about the way you see the world, and I think that's one of the most beautiful things about you.
+      </div>
+    </div>
+
+    <div class="divider">· · ·</div>
+
+    <div class="about-card">
+      <div class="card-title" data-glyph="✦">the writer</div>
+      <div class="card-body">
+        You write because you have something to say — and you always do. There's a quiet precision to the way you put things into words, a thoughtfulness that doesn't shout. I hope you never stop.
+      </div>
+    </div>
+
+    <div class="divider">· · ·</div>
+
+    <div class="about-card">
+      <div class="card-title" data-glyph="✦">the fandom girlie</div>
+      <div class="card-body">
+        You love things fully, without apology. The way you care about fictional worlds and the people in them — that's not a small thing. It says a lot about your capacity for feeling, and I'm glad you let me see it.
+      </div>
+    </div>
+
+    <div class="divider">· · ·</div>
+
+    <div class="about-card">
+      <div class="card-title" data-glyph="✦">the knitter</div>
+      <div class="card-body">
+        There's something I find endlessly sweet about this — the patience of it, the way your hands make something out of nothing. Every stitch is deliberate. I think that's very you.
+      </div>
+    </div>
+  </section>
+
+  <!-- POEM -->
+  <section id="poem-section">
+    <div class="section-label" style="justify-content:center;max-width:200px;margin:0 auto 3rem">a poem</div>
+    <div class="poem-title">if i could</div>
+
+    <!-- ════════════════════════════════════════════
+         PASTE YOUR POEM LINES BELOW
+         Each line goes in its own <span class="poem-line">…</span>
+         For blank lines between stanzas, use: <span class="poem-line empty"></span>
+         ════════════════════════════════════════════ -->
+    <div id="poemLines">
+      <span class="poem-line">if i could show you how i felt about you,</span>
+      <span class="poem-line">i'd require every art gallery on this earth.</span>
+      <span class="poem-line">so let me just take a moment to try</span>
+      <span class="poem-line">to show you what love is worth.</span>
+      <span class="poem-line empty"></span>
+      <span class="poem-line">if i could choose to be anywhere,</span>
+      <span class="poem-line">i'd be standing next to you.</span>
+      <span class="poem-line">and any place that we travel,</span>
+      <span class="poem-line">your eyes would still have the prettiest view.</span>
+      <span class="poem-line empty"></span>
+      <span class="poem-line">if i could only listen to two songs,</span>
+      <span class="poem-line">the first would be the one that you wrote.</span>
+      <span class="poem-line">and if you happen to publish a book,</span>
+      <span class="poem-line">every word of it would be my new favourite quote.</span>
+      <span class="poem-line empty"></span>
+      <span class="poem-line">if i could only hold one thing,</span>
+      <span class="poem-line">i'd make sure that it's your hand.</span>
+      <span class="poem-line">if i could purchase only one item,</span>
+      <span class="poem-line">it would be something from your favourite brand.</span>
+      <span class="poem-line empty"></span>
+      <span class="poem-line">if i could only write about love,</span>
+      <span class="poem-line">all my poems would have your name.</span>
+      <span class="poem-line">if i could only keep one photograph,</span>
+      <span class="poem-line">it would be your smile that's in the frame.</span>
+      <span class="poem-line empty"></span>
+      <span class="poem-line">if i could only see the future,</span>
+      <span class="poem-line">you'd be in every image up to the last.</span>
+      <span class="poem-line">if i could only change the speed of time,</span>
+      <span class="poem-line">i'd make sure that it stops going so fast</span>
+      <span class="poem-line">when i'm finally with you.</span>
+    </div>
+
+    <span class="poem-sig">— saayf</span>
+  </section>
+
+  <!-- LETTER -->
+  <section id="letter-section">
+    <div class="letter-opener">Mahzeb,</div>
+    <div class="letter-body-text">
+      <p>It's only been a couple of weeks, and I already feel like I've known you longer than that. You have a way of making things feel easy — easy to talk, easy to laugh, easy to just be.</p>
+      <p>I'm not very good at saying these things out loud, so I made you this instead. A small corner of the internet that's just yours, just for today.</p>
+      <p>I hope this birthday is the start of a really good year for you. You deserve all of it.</p>
+    </div>
+    <div class="letter-close">with love, saayf</div>
+  </section>
+
+  <!-- HEARTS -->
+  <section id="hearts-section">
+    <div id="hearts-container">
+      <div class="heart-wrap heart-left" id="heart-left">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="hg1" cx="40%" cy="35%" r="60%">
+              <stop offset="0%"   stop-color="#e8b88a"/>
+              <stop offset="100%" stop-color="#b8704a"/>
+            </radialGradient>
+          </defs>
+          <path d="M50,82 C22,62 0,46 0,27 C0,12 11,2 24,2 C34,2 43,9 50,20 C57,9 66,2 76,2 C89,2 100,12 100,27 C100,46 78,62 50,82 Z" fill="url(#hg1)"/>
+        </svg>
+      </div>
+      <div class="heart-wrap heart-right" id="heart-right">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="hg2" cx="60%" cy="35%" r="60%">
+              <stop offset="0%"   stop-color="#e8b88a"/>
+              <stop offset="100%" stop-color="#c9883a"/>
+            </radialGradient>
+          </defs>
+          <path d="M50,82 C22,62 0,46 0,27 C0,12 11,2 24,2 C34,2 43,9 50,20 C57,9 66,2 76,2 C89,2 100,12 100,27 C100,46 78,62 50,82 Z" fill="url(#hg2)"/>
+        </svg>
+      </div>
+    </div>
+    <div id="hearts-label">happy birthday ♡</div>
+  </section>
+
+  <!-- CLOSING -->
+  <div id="closing">
+    <p>the story continues</p>
+  </div>
+
+</div><!-- end mainSite -->
+
+<script>
+// ══════════════════════════════════════
+// LOGIN
+// ══════════════════════════════════════
+function tryLogin() {
+  const u = document.getElementById('uInput').value.trim();
+  const p = document.getElementById('pInput').value.trim();
+  if (u.toLowerCase() === 'mahzeb' && p === 'birthday2026') {
+    const wrap = document.getElementById('loginWrap');
+    wrap.classList.add('hidden');
+    wrap.addEventListener('transitionend', () => wrap.style.display = 'none', { once: true });
+    const site = document.getElementById('mainSite');
+    site.style.display = 'block';
+    document.getElementById('music-btn').style.display = 'flex';
+    requestAnimationFrame(() => requestAnimationFrame(() => site.classList.add('visible')));
+  } else {
+    const fields = document.querySelector('#loginWrap');
+    fields.classList.remove('shake');
+    void fields.offsetWidth;
+    fields.classList.add('shake');
+    document.getElementById('loginErr').textContent = 'try again ✦';
+    setTimeout(() => document.getElementById('loginErr').textContent = '', 1600);
+  }
+}
+
+// ══════════════════════════════════════
+// AUDIO
+// ══════════════════════════════════════
+const audio = document.getElementById('bgMusic');
+let musicOn = false;
+audio.volume = 0.42;
+
+window.addEventListener('scroll', function onFirstScroll() {
+  if (!musicOn && document.getElementById('mainSite').classList.contains('visible')) {
+    audio.play().then(() => {
+      musicOn = true;
+      document.getElementById('music-btn').classList.add('on');
+      document.getElementById('music-btn-label').textContent = 'pause';
+      document.getElementById('btnBars').classList.remove('paused');
+    }).catch(() => {});
+  }
+  window.removeEventListener('scroll', onFirstScroll);
+}, { passive: true });
+
+function toggleMusic() {
+  const label = document.getElementById('music-btn-label');
+  const bars  = document.getElementById('btnBars');
+  const btn   = document.getElementById('music-btn');
+  if (musicOn) {
+    audio.pause();
+    musicOn = false;
+    label.textContent = 'play';
+    bars.classList.add('paused');
+    btn.classList.remove('on');
+  } else {
+    audio.play();
+    musicOn = true;
+    label.textContent = 'pause';
+    bars.classList.remove('paused');
+    btn.classList.add('on');
+  }
+}
+
+// ══════════════════════════════════════
+// PARALLAX STRIP
+// ══════════════════════════════════════
+const strip = document.getElementById('imgStrip');
+const track = document.getElementById('stripTrack');
+function updateStrip() {
+  if (!strip || window.innerWidth <= 768) return;
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const prog = Math.max(0, Math.min(1, window.scrollY / docH));
+  const imgs = track.querySelectorAll('.strip-img');
+  const totalH = imgs.length * 340;
+  const maxShift = totalH - window.innerHeight;
+  track.style.transform = `translateY(-${prog * maxShift * 0.85}px)`;
+}
+window.addEventListener('scroll', updateStrip, { passive: true });
+
+// ══════════════════════════════════════
+// SCROLL REVEAL
+// ══════════════════════════════════════
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll(
+  '.about-card, .divider, .letter-opener, .letter-body-text, .letter-close, #closing'
+).forEach(el => revealObserver.observe(el));
+
+// ── Poem staggered reveal ──
+const poemTitle = document.querySelector('.poem-title');
+const poemSig   = document.querySelector('.poem-sig');
+const poemLines = document.querySelectorAll('.poem-line');
+
+const poemObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      poemLines.forEach((line, i) => {
+        setTimeout(() => {
+          line.classList.add('visible');
+          if (i === poemLines.length - 1) {
+            setTimeout(() => poemSig.classList.add('visible'), 400);
+          }
+        }, i * 120);
+      });
+      poemObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+poemObserver.observe(document.getElementById('poem-section'));
+
+// ══════════════════════════════════════
+// HEARTS COLLISION
+// ══════════════════════════════════════
+let heartsTriggered = false;
+const heartsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !heartsTriggered) {
+      heartsTriggered = true;
+      triggerHearts();
+      heartsObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+heartsObserver.observe(document.getElementById('hearts-section'));
+
+function triggerHearts() {
+  const l = document.getElementById('heart-left');
+  const r = document.getElementById('heart-right');
+  l.classList.add('collide');
+  r.classList.add('collide');
+  setTimeout(() => {
+    l.classList.add('pulse');
+    r.classList.add('pulse');
+    document.getElementById('hearts-label').classList.add('show');
+    launchConfetti();
+  }, 1700);
+}
+
+// ══════════════════════════════════════
+// CONFETTI
+// ══════════════════════════════════════
+const cCanvas = document.getElementById('confetti-canvas');
+const cCtx    = cCanvas.getContext('2d');
+let cPieces   = [];
+
+function resizeConfetti() {
+  cCanvas.width  = window.innerWidth;
+  cCanvas.height = window.innerHeight;
+}
+resizeConfetti();
+window.addEventListener('resize', resizeConfetti);
+
+function launchConfetti() {
+  const colors = ['#c9883a','#f2e2c8','#7a1e2e','#e8b88a','#b8704a','#fff8ee'];
+  cPieces = Array.from({ length: 180 }, () => ({
+    x:     Math.random() * cCanvas.width,
+    y:     -20 - Math.random() * 80,
+    w:     Math.random() * 9 + 4,
+    h:     Math.random() * 4 + 2,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    speed: Math.random() * 3.5 + 1.5,
+    drift: (Math.random() - 0.5) * 2.5,
+    angle: Math.random() * Math.PI * 2,
+    spin:  (Math.random() - 0.5) * 0.18,
+    life:  1
+  }));
+  animateConfetti();
+}
+
+function animateConfetti() {
+  cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height);
+  cPieces.forEach(p => {
+    p.y += p.speed; p.x += p.drift; p.angle += p.spin;
+    if (p.y > cCanvas.height * 0.75) p.life -= 0.016;
+    cCtx.save();
+    cCtx.globalAlpha = Math.max(0, p.life);
+    cCtx.translate(p.x, p.y);
+    cCtx.rotate(p.angle);
+    cCtx.fillStyle = p.color;
+    cCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    cCtx.restore();
+  });
+  cPieces = cPieces.filter(p => p.life > 0);
+  if (cPieces.length) requestAnimationFrame(animateConfetti);
+  else cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height);
+}
+
+// ══════════════════════════════════════
+// GALAXY STARFIELD
+// ══════════════════════════════════════
+const sCanvas = document.getElementById('stars-canvas');
+const sCtx    = sCanvas.getContext('2d');
+let W, H;
+
+function resizeStars() {
+  W = sCanvas.width  = window.innerWidth;
+  H = sCanvas.height = window.innerHeight;
+}
+resizeStars();
+window.addEventListener('resize', resizeStars);
+
+const stars = Array.from({ length: 260 }, () => ({
+  x:           Math.random(),
+  y:           Math.random(),
+  r:           Math.random() < 0.75 ? Math.random() * 0.7 + 0.2 : Math.random() * 1.5 + 0.7,
+  baseAlpha:   Math.random() * 0.45 + 0.2,
+  twinkleSpd:  Math.random() * 0.016 + 0.004,
+  twinklePhase:Math.random() * Math.PI * 2,
+  bright:      Math.random() < 0.08
+}));
+
+const dust = Array.from({ length: 24 }, () => ({
+  x:     Math.random(),
+  y:     Math.random(),
+  r:     Math.random() * 1.1 + 0.25,
+  speed: Math.random() * 0.00016 + 0.00005,
+  drift: (Math.random() - 0.5) * 0.00014,
+  alpha: Math.random() * 0.18 + 0.03
+}));
+
+let frame = 0;
+(function animateGalaxy() {
+  sCtx.clearRect(0, 0, W, H);
+  frame++;
+
+  stars.forEach(s => {
+    const twinkle = Math.sin(frame * s.twinkleSpd + s.twinklePhase) * 0.24;
+    const alpha   = Math.max(0.04, s.baseAlpha + twinkle);
+    const x = s.x * W, y = s.y * H;
+
+    if (s.bright && s.r > 1.2) {
+      const grd = sCtx.createRadialGradient(x, y, 0, x, y, s.r * 5);
+      grd.addColorStop(0,   `rgba(242,226,200,${alpha})`);
+      grd.addColorStop(0.4, `rgba(201,136,58,${alpha * 0.3})`);
+      grd.addColorStop(1,   `rgba(180,110,50,0)`);
+      sCtx.beginPath();
+      sCtx.arc(x, y, s.r * 5, 0, Math.PI * 2);
+      sCtx.fillStyle = grd;
+      sCtx.fill();
+    }
+    sCtx.beginPath();
+    sCtx.arc(x, y, s.r, 0, Math.PI * 2);
+    sCtx.fillStyle = `rgba(242,226,200,${alpha})`;
+    sCtx.fill();
+  });
+
+  dust.forEach(p => {
+    p.y -= p.speed;
+    p.x += p.drift;
+    if (p.y < -0.01) { p.y = 1.01; p.x = Math.random(); }
+    sCtx.beginPath();
+    sCtx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+    sCtx.fillStyle = `rgba(201,136,58,${p.alpha})`;
+    sCtx.fill();
+  });
+
+  requestAnimationFrame(animateGalaxy);
+})();
+
+// ══════════════════════════════════════
+// CLICK SPARKLES
+// ══════════════════════════════════════
+document.getElementById('mainSite').addEventListener('click', e => {
+  const colors = ['#c9883a','#f2e2c8','#b8704a','#e8b88a','#7a1e2e'];
+  for (let i = 0; i < 7; i++) {
+    const el = document.createElement('div');
+    el.className = 'sparkle';
+    const angle = (Math.PI * 2 * i) / 7;
+    const dist  = 30 + Math.random() * 30;
+    el.style.cssText = `
+      left: ${e.clientX - 3}px;
+      top: ${e.clientY - 3}px;
+      background: ${colors[i % colors.length]};
+      --dx: ${Math.cos(angle) * dist}px;
+      --dy: ${Math.sin(angle) * dist}px;
+    `;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+});
+</script>
+</body>
+</html>
